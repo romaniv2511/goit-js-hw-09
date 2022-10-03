@@ -7,6 +7,8 @@ const refs = {
     startBtn: document.querySelector('button[data-start]'),
 }
 
+
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -27,8 +29,12 @@ const options = {
 };
 flatpickr(refs.input, options);
 
+
 const onEnableStartBtn = () => refs.startBtn.disabled = false;
 const onDisableStartBtn = () => refs.startBtn.disabled = true;
+const onEnableInput = () => refs.input.disabled = false;
+const onDisableInput = () => refs.input.disabled = true;
+
 onDisableStartBtn();
 
 
@@ -53,9 +59,12 @@ const timer = {
 
             if (delta < 1000) {
                 clearInterval(this.intervalId)
+                onEnableInput();
             }
         }, 1000);
         
+        onDisableStartBtn();
+        onDisableInput();
     },
 
     getStartTime() {
@@ -82,11 +91,7 @@ const timer = {
     }
 }
 
-const onStartClick = () => {
-    timer.start();
-    onDisableStartBtn();
-}
-refs.startBtn.addEventListener('click', onStartClick);
+refs.startBtn.addEventListener('click', timer.start.bind(timer));
 
 
 
